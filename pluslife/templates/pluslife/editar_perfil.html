@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Editar Perfil - PlusLife{% endblock %}
+
+{% block content %}
+    <div class="card shadow-lg mx-auto mb-4" style="max-width: 700px; border-radius: 0 0 20px 20px;">
+        <div class="card-body p-4">
+            <h2 class="mb-4">Editar Perfil</h2>
+            <form method="post">
+                {% csrf_token %}
+
+                <hr>
+
+                <h4 class="mt-4">Dados Pessoais</h4>
+                {{ user_form.as_p }}
+
+                <hr>
+
+                <h4>Endereço</h4>
+                {{ endereco_form.as_p }}
+
+                <div class="mt-4 d-flex justify-content-center align-items-center gap-4">
+                    <button type="submit" class="btn btn-success">Salvar Alterações</button>
+                    <a href="{% url 'perfil' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

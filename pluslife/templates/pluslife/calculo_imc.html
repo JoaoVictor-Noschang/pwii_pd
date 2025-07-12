@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Calcular IMC{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="my-4">Calcular IMC</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="peso">Peso (kg)</label>
+            <input type="text" step="0.01" class="form-control" id="peso" name="peso" value="{{ peso|default_if_none:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="altura">Altura (m)</label>
+            <input type="text" step="0.01" class="form-control" id="altura" name="altura" value="{{ altura|default_if_none:'' }}">
+        </div>
+
+        {% if resultado %}
+        <div class="alert alert-info">
+            <strong>IMC:</strong> {{ resultado }}<br>
+            <strong>Observação:</strong> {{ observacao }}
+        </div>
+        <button type="submit" name="registrar" class="btn btn-success">Registrar IMC</button>
+        {% else %}
+        <button type="submit" class="btn btn-yellow-custom">Calcular IMC</button>
+        <a href="{% url 'imc' %}" class="btn btn-secondary ms-2">Cancelar</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

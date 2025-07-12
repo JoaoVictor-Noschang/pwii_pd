@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Nova Refeição - PlusLife{% endblock %}
+
+{% block content %}
+
+    <h2 class="my-4">Meus Exercícios</h2>
+
+    <div class="mb-3">
+        <a href="{% url 'cadastrar_exercicio' %}" class="btn btn-purple-custom">Novo Exercício</a>
+        <a href="{% url 'tipos_exercicio' %}" class="btn btn-outline-secondary">Gerenciar Tipos de Exercícios</a>
+    </div>
+
+    {% if exercicios %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Tipo</th>
+                <th>Duração</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in exercicios %}
+            <tr>
+                <td>{{ e.nome }}</td>
+                <td>{{ e.data_hora|date:"d/m/Y H:i" }}</td>
+                <td>{{ e.tipo_exercicio.titulo }}</td>
+                <td>{{ e.minutos }} min</td>
+                <td>
+                    <a href="{% url 'editar_exercicio' e.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'excluir_exercicio' e.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Nenhum exercício registrado ainda.</p>
+    {% endif %}
+
+{% endblock %}

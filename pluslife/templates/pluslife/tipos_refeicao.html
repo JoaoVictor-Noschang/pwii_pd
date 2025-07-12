@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Tipos de Refeição{% endblock %}
+
+{% block content %}
+    <h2 class="my-4">Tipos de Refeição</h2>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="d-flex gap-2">
+            {{ form.titulo }}
+            <button type="submit" class="btn btn-success">Adicionar</button>
+        </div>
+    </form>
+
+    {% if tipos %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tipo in tipos %}
+                <tr>
+                    <td>{{ tipo.titulo }}</td>
+                    <td>
+                        <a href="{% url 'editar_tipo_refeicao' tipo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'excluir_tipo_refeicao' tipo.id %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Você ainda não cadastrou nenhum tipo de refeição.</p>
+    {% endif %}
+{% endblock %}

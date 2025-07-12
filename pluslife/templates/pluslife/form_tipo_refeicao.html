@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Editar Tipo de Refeição{% endblock %}
+
+{% block content %}
+    <h2 class>Editar Tipo de Refeição</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'tipos_refeicao' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

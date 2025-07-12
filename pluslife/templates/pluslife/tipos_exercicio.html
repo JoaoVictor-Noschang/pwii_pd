@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Tipos de Exercício - PlusLife{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 mt-4">Tipos de Exercício</h2>
+
+<form method="POST" class="mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary mb-4">Adicionar Tipo</button>
+</form>
+
+{% if tipos %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tipo in tipos %}
+        <tr>
+            <td>{{ tipo.titulo }}</td>
+            <td>
+                <a href="{% url 'editar_tipo_exercicio' tipo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'excluir_tipo_exercicio' tipo.id %}" class="btn btn-sm btn-danger">Excluir</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Nenhum tipo de exercício cadastrado.</p>
+{% endif %}
+{% endblock %}

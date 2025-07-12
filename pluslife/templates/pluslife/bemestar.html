@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Bem-Estar - PlusLife{% endblock %}
+
+{% block content %}
+<h2 class="my-4">Meus Registros de Bem-Estar</h2>
+
+<div class="mb-3">
+    <a href="{% url 'cadastrar_bemestar' %}" class="btn btn-green-custom">Novo Registro</a>
+</div>
+
+{% if registros %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Sentimento</th>
+                <th>Desabafo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in registros %}
+                <tr>
+                    <td>{{ r.data|date:"d/m/Y" }}</td>
+                    <td>{{ r.get_sentimento_display }}</td>
+                    <td class="celula-desabafo" title="{{ r.desabafo|default:'' }}">{{ r.desabafo|truncatechars:60 }}</td>
+                    <td>
+                        <a href="{% url 'editar_bemestar' r.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'excluir_bemestar' r.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Você ainda não registrou seu bem-estar.</p>
+{% endif %}
+{% endblock %}

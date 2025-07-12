@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Histórico de IMC{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="my-4">Histórico de IMC</h2>
+    <a href="{% url 'calcular_imc' %}" class="btn btn-yellow-custom mb-3">Novo Cálculo</a>
+
+    {% if imcs %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Peso</th>
+                <th>Altura</th>
+                <th>IMC</th>
+                <th>Legenda</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for imc in imcs %}
+            <tr>
+                <td>{{ imc.data_criacao|date:"d/m/Y" }}</td>
+                <td>{{ imc.peso }} kg</td>
+                <td>{{ imc.altura }} m</td>
+                <td>{{ imc.imc }}</td>
+                <td>{{ imc.legenda.titulo }}</td>
+                <td>
+                    <a href="{% url 'excluir_imc' imc.pk %}" class="btn btn-sm btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>Você ainda não registrou nenhum IMC.</p>
+    {% endif %}
+</div>
+{% endblock %}

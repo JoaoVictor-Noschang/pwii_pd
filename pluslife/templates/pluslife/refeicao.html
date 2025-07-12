@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Refeições - PlusLife{% endblock %}
+
+{% block content %}
+
+    <h2 class="my-4">Minhas Refeições</h2>
+
+    <div class="mb-4 d-flex gap-3">
+        <a href="{% url 'cadastrar_refeicao' %}" class="btn btn-orange-custom">Nova Refeição</a>
+        <a href="{% url 'tipos_refeicao' %}" class="btn btn-outline-secondary">Gerenciar Tipos de Refeição</a>
+    </div>
+
+    {% if refeicoes %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Data</th>
+                    <th>Calorias</th>
+                    <th>Peso</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in refeicoes %}
+                <tr>
+                    <td>{{ r.nome }}</td>
+                    <td>{{ r.tipo_refeicao.titulo }}</td>
+                    <td>{{ r.data_hora|date:"d/m/Y H:i" }}</td>
+                    <td>{{ r.calorias }} kcal</td>
+                    <td>{{ r.peso }} g</td>
+                    <td>
+                        <a href="{% url 'editar_refeicao' r.id %}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{% url 'excluir_refeicao' r.id %}" class="btn btn-sm btn-danger">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Você ainda não cadastrou nenhuma refeição.</p>
+    {% endif %}
+
+{% endblock %}

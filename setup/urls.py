@@ -1,0 +1,40 @@
+from django.contrib import admin
+from django.urls import path
+
+from pluslife import views
+
+urlpatterns = [
+    #path('admin/', admin.site.urls),
+    path('', views.home_view),
+    path('cadastro/', views.cadastro_view, name='cadastro'),
+    path('login/', views.login_usuario, name='login'),
+    path('logout/', views.logout_usuario, name='logout'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path("bemestar/", views.bemestar_view, name="bemestar"),
+    path("bemestar/novo/", views.cadastrar_bemestar, name="cadastrar_bemestar"),
+    path("bemestar/editar/<int:pk>/", views.editar_bemestar, name="editar_bemestar"),
+    path("bemestar/excluir/<int:pk>/", views.excluir_bemestar, name="excluir_bemestar"),
+    path('refeicoes/', views.refeicao_view, name='refeicoes'),
+    path('refeicoes/nova/', views.cadastrar_refeicao, name='cadastrar_refeicao'),
+    path('refeicoes/editar/<int:pk>/', views.editar_refeicao, name='editar_refeicao'),
+    path('refeicoes/excluir/<int:pk>/', views.excluir_refeicao, name='excluir_refeicao'),
+    path("tipos-refeicao/", views.tipos_refeicao_view, name="tipos_refeicao"),
+    path("tipos-refeicao/editar/<int:pk>/", views.editar_tipo_refeicao, name="editar_tipo_refeicao"),
+    path("tipos-refeicao/excluir/<int:pk>/", views.excluir_tipo_refeicao, name="excluir_tipo_refeicao"),
+    path('hidratacoes/', views.hidratacao_view, name='hidratacoes'),
+    path('hidratacoes/nova/', views.cadastrar_hidratacao, name='cadastrar_hidratacao'),
+    path('hidratacoes/editar/<int:pk>/', views.editar_hidratacao, name='editar_hidratacao'),
+    path('hidratacoes/excluir/<int:pk>/', views.excluir_hidratacao, name='excluir_hidratacao'),
+    path('exercicios/', views.exercicio_view, name='exercicios'),
+    path('exercicios/nova/', views.cadastrar_exercicio, name='cadastrar_exercicio'),
+    path('exercicios/editar/<int:pk>/', views.editar_exercicio, name='editar_exercicio'),
+    path('exercicios/excluir/<int:pk>/', views.excluir_exercicio, name='excluir_exercicio'),
+    path('tipos-exercicio/', views.tipos_exercicio_view, name='tipos_exercicio'),
+    path('tipos-exercicio/editar/<int:pk>/', views.editar_tipo_exercicio, name='editar_tipo_exercicio'),
+    path('tipos-exercicio/excluir/<int:pk>/', views.excluir_tipo_exercicio, name='excluir_tipo_exercicio'),
+    path('imc/', views.imc_view, name='imc'),
+    path('imc/calcular/', views.calcular_registrar_imc, name='calcular_imc'),
+    path('imc/excluir/<int:pk>/', views.excluir_imc, name='excluir_imc'),
+    path("perfil/", views.perfil_view, name="perfil"),
+    path('perfil/editar/', views.editar_perfil_view, name='editar_perfil'),
+]

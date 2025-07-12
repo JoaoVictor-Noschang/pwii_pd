@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}+Life - Web{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: rgb(237, 237, 237);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: rgb(165, 121, 252);
+            padding: 15px 50px;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .head-info {
+            width: 150px;
+        }
+        header h1 {
+            font-weight: bold;
+            font-size: 2.2rem;
+        }
+        #user-name {
+            text-align: center;
+        }
+        header #plus {
+            color: #9dffae;
+        }
+        header #web {
+            font-size: 1rem;
+            font-style: italic;
+            color: #2b2b2b;
+            margin-left: -8px;
+        }
+        .legenda {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 5px; 
+        }
+        .legenda form, .legenda a {
+            width: 100px;
+            font-size: 0.875rem;
+        }
+        .legenda form button {
+            width: 100%;
+            border: none;
+            font-size: 0.875rem;
+        }
+        .btn-green-custom {
+            background-color: rgba(72, 239, 130, 1);
+            border-color: rgba(72, 239, 130, 1);
+            color: #fff;
+        }
+        .btn-green-custom:hover,
+        .btn-green-custom:active {
+            background-color: #ffffff; 
+            border-color: rgba(72, 239, 130, 1);
+            color: rgba(72, 239, 130, 1);
+        }
+        .btn-orange-custom {
+            background-color: rgba(255, 87, 20, 1);
+            border-color: rgba(255, 87, 20, 1);
+            color: #fff;
+        }
+        .btn-orange-custom:hover,
+        .btn-orange-custom:active {
+            background-color: #ffffff; 
+            border-color: rgba(255, 87, 20, 1);
+            color: rgba(255, 87, 20, 1);
+        }
+        .btn-blue-custom {
+            background-color: rgba(72, 149, 239, 1);
+            border-color: rgba(72, 149, 239, 1);
+            color: #fff;
+        }
+        .btn-blue-custom:hover,
+        .btn-blue-custom:active {
+            background-color: #ffffff; 
+            border-color: rgba(72, 149, 239, 1);
+            color: rgba(72, 149, 239, 1);
+        }
+        .btn-purple-custom {
+            background-color: rgb(165, 121, 252);
+            border-color: rgb(165, 121, 252);
+            color: #fff;
+        }
+        .btn-purple-custom:hover,
+        .btn-purple-custom:active {
+            background-color: #ffffff; 
+            border-color: rgb(140, 100, 220);
+            color: rgb(140, 100, 220);
+        }
+        .btn-yellow-custom {
+            background-color: rgba(225, 255, 119, 1);
+            border-color: rgba(175, 202, 78, 1);
+            color: #fff;
+            color: #636363ff;
+        }
+        .btn-yellow-custom:hover,
+        .btn-yellow-custom:active {
+            background-color: #ffffff; 
+            border-color: rgba(192, 221, 88, 1);
+            color: rgba(192, 221, 88, 1);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="d-flex justify-content-between align-items-center">
+        <h1 class="head-info"><span id="plus">+</span>Life <span id="web">Web</span></h1>
+
+        {% if user.is_authenticated %}
+        <div id="user-name">
+            <span>{{ user.nome }}!</span>
+        </div>
+        {% endif %}
+
+        <div class="legenda">
+
+            {% if url == 'perfil' %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="logoff btn btn-danger" type="submit">Sair</button>
+            </form>
+            {% endif %}
+
+            <a href="{% url 'dashboard' %}" class="btn btn-primary head-info">Home</a>
+        
+        </div>
+
+    </header>
+
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+    <main class="container">
+        {% block content %}
+
+
+        <!-- Conteúdo das páginas -->
+        {% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

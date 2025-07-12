@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Perfil Usuário - PlusLife{% endblock %}
+
+{% block content %}
+    <style>
+        .info-box {
+            background-color:rgba(231, 231, 231, 1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <div class="card shadow-lg mx-auto mb-3" style="max-width: 700px; border-radius: 0 0 20px 20px;">
+        <div class="card-body p-4">
+
+            <a href="{% url 'editar_perfil' %}" class="btn btn-success d-block w-25 mx-auto">Atualizar Dados</a>
+
+            <h2 class="mt-4">Dados do Usuário</h2>
+
+            <div class="mb-3">
+                <h5>Nome do Usuário</h5>
+                <div class="info-box">{{ usuario.nome }}</div>
+            </div>
+
+            <div class="mb-3">
+                <h5>Email do Usuário</h5>
+                <div class="info-box">{{ usuario.email }}</div>
+            </div>
+
+            <div class="mb-3">
+                <h5>Data de Nascimento</h5>
+                <div class="info-box">{{ usuario.data_nascimento|date:"d/m/Y" }}</div>
+            </div>
+
+            <h2 class="mt-4">Endereço</h2>
+
+            {% if endereco %}
+
+                <div class="mb-3">
+                    <h5>Rua</h5>
+                    <div class="info-box">{{ endereco.rua }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Número</h5>
+                    <div class="info-box">{{ endereco.numero }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Bairro</h5>
+                    <div class="info-box">{{ endereco.bairro }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Cidade</h5>
+                    <div class="info-box">{{ endereco.cidade }}</div>
+                </div>
+            {% else %}
+                <p class="text-muted">Nenhum endereço cadastrado.</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

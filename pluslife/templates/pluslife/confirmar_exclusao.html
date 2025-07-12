@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Excluir {{ tipo }} - PlusLife{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Excluir {{ tipo }}</h2>
+    <p>Tem certeza que deseja excluir "<strong>{{ objeto }}</strong>"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{{ cancel_url }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Hidratações - PlusLife{% endblock %}
+
+{% block content %}
+
+    <h2 class="my-4">Minhas Hidratações</h2>
+
+    <div class="mb-4 d-flex gap-3">
+        <a href="{% url 'cadastrar_hidratacao' %}" class="btn btn-blue-custom">Nova Hidratação</a>
+    </div>
+
+    {% if hidratacoes %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data e Hora</th>
+                    <th>Mililitros</th>
+                    <th>Ações</th>
+                </tr>
+                    </thead>
+                    <tbody>
+                        {% for h in hidratacoes %}
+                        <tr>
+                    <td>{{ h.data_hora|date:"d/m/Y H:i" }}</td>
+                    <td>{{ h.mililitros }} ml</td>
+                    <td>
+                        <a href="{% url 'editar_hidratacao' h.id %}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{% url 'excluir_hidratacao' h.id %}" class="btn btn-danger btn-sm">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhuma hidratação registrada ainda.</p>
+    {% endif %}
+
+{% endblock %}
