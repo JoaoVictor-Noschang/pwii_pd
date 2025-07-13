@@ -241,7 +241,7 @@ def exercicio_view(request):
     exercicios = Exercicio.objects.filter(usuario=request.user).order_by('-data_hora')
     return render(request, 'pluslife/exercicio.html', {'exercicios': exercicios})
 
-login_required
+@login_required
 def cadastrar_exercicio(request):
     form = ExercicioForm(request.POST or None)
     service = ExercicioService()
