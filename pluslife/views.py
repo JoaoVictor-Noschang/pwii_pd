@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -16,13 +17,14 @@ from pluslife.services import RefeicaoService, HidratacaoService, ExercicioServi
 
 TEMPLATE_CONFIRMACAO_EXCLUSAO = 'pluslife/confirmar_exclusao.html'
 
-
+@require_GET
 def home_view(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
     return redirect('login')
 
 
+@require_http_methods(["GET", "POST"])
 def cadastro_view(request):
     if request.method == 'POST':
         user_form = CadastroUsuarioForm(request.POST)
@@ -49,6 +51,7 @@ def cadastro_view(request):
     })
 
 
+@require_http_methods(["GET", "POST"])
 def login_usuario(request):
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
@@ -66,11 +69,13 @@ def login_usuario(request):
     return render(request, 'login.html', {'form': form})
 
 
+@require_POST
 def logout_usuario(request):
     logout(request)
     return redirect('login')
 
 
+@require_GET
 @login_required
 def dashboard_view(request):
     hoje = timezone.now().date()
@@ -109,11 +114,13 @@ def dashboard_view(request):
 
 
 #View para refeições
+@require_GET
 @login_required
 def refeicao_view(request):
     refeicoes = Refeicao.objects.filter(usuario=request.user).order_by('-data_hora')
     return render(request, 'pluslife/refeicao.html', {'refeicoes': refeicoes})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_refeicao(request):
     form = RefeicaoForm(request.POST or None)
@@ -127,6 +134,7 @@ def cadastrar_refeicao(request):
 
     return render(request, 'pluslife/form_refeicao.html', {'form': form, 'titulo': 'Nova Refeição'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_refeicao(request, pk):
     refeicao = get_object_or_404(Refeicao, pk=pk, usuario=request.user)
@@ -136,6 +144,7 @@ def editar_refeicao(request, pk):
         return redirect('refeicoes')
     return render(request, 'pluslife/form_refeicao.html', {'form': form, 'titulo': 'Editar Refeição'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_refeicao(request, pk):
     refeicao = get_object_or_404(Refeicao, pk=pk, usuario=request.user)
@@ -149,6 +158,7 @@ def excluir_refeicao(request, pk):
     })
 
 # manipulando cadastros de tipo de refeição
+@require_GET
 @login_required
 def tipos_refeicao_view(request):
     tipos = TipoRefeicao.objects.all()
@@ -165,6 +175,7 @@ def tipos_refeicao_view(request):
         'form': form,
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_tipo_refeicao(request, pk):
     tipo = get_object_or_404(TipoRefeicao, pk=pk)
@@ -177,6 +188,7 @@ def editar_tipo_refeicao(request, pk):
         form = TipoRefeicaoForm(instance=tipo)
     return render(request, 'pluslife/form_tipo_refeicao.html', {'form': form, 'tipo': tipo})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_tipo_refeicao(request, pk):
     tipo = get_object_or_404(TipoRefeicao, pk=pk)
@@ -195,11 +207,13 @@ def excluir_tipo_refeicao(request, pk):
 
 
 #View para hidratação
+@require_GET
 @login_required
 def hidratacao_view(request):
     hidratacoes = Hidratacao.objects.filter(usuario=request.user).order_by('-data_hora')
     return render(request, 'pluslife/hidratacao.html', {'hidratacoes': hidratacoes})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_hidratacao(request):
     form = HidratacaoForm(request.POST or None)
@@ -216,6 +230,7 @@ def cadastrar_hidratacao(request):
         'titulo': 'Nova Hidratação'
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_hidratacao(request, pk):
     hidratacao = get_object_or_404(Hidratacao, pk=pk, usuario=request.user)
@@ -225,6 +240,7 @@ def editar_hidratacao(request, pk):
         return redirect('hidratacoes')
     return render(request, 'pluslife/form_hidratacao.html', {'form': form, 'titulo': 'Editar Hidratação'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_hidratacao(request, pk):
     hidratacao = get_object_or_404(Hidratacao, pk=pk, usuario=request.user)
@@ -239,10 +255,13 @@ def excluir_hidratacao(request, pk):
 
 
 #views para exercicios
+@require_GET
+@login_required
 def exercicio_view(request):
     exercicios = Exercicio.objects.filter(usuario=request.user).order_by('-data_hora')
     return render(request, 'pluslife/exercicio.html', {'exercicios': exercicios})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_exercicio(request):
     form = ExercicioForm(request.POST or None)
@@ -259,6 +278,7 @@ def cadastrar_exercicio(request):
         'titulo': 'Novo Exercício'
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_exercicio(request, pk):
     exercicio = get_object_or_404(Exercicio, pk=pk, usuario=request.user)
@@ -268,6 +288,7 @@ def editar_exercicio(request, pk):
         return redirect('exercicios')
     return render(request, 'pluslife/form_exercicio.html', {'form': form, 'titulo': 'Editar Exercício'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_exercicio(request, pk):
     exercicio = get_object_or_404(Exercicio, pk=pk, usuario=request.user)
@@ -282,6 +303,7 @@ def excluir_exercicio(request, pk):
 
 
 #views para manipular tipos de exercícios
+@require_GET
 @login_required
 def tipos_exercicio_view(request):
     tipos = TipoExercicio.objects.all()
@@ -298,6 +320,7 @@ def tipos_exercicio_view(request):
         'form': form,
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_tipo_exercicio(request, pk):
     tipo = get_object_or_404(TipoExercicio, pk=pk)
@@ -315,6 +338,7 @@ def editar_tipo_exercicio(request, pk):
         'tipo': tipo,
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_tipo_exercicio(request, pk):
     tipo = get_object_or_404(TipoExercicio, pk=pk)
@@ -334,6 +358,7 @@ def excluir_tipo_exercicio(request, pk):
 
 
 #views para o perfil e manipulção do usuário
+@require_GET
 @login_required
 def perfil_view(request):
     usuario = request.user
@@ -347,6 +372,7 @@ def perfil_view(request):
         'url': 'perfil',
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_perfil_view(request):
     usuario = request.user
@@ -372,11 +398,13 @@ def editar_perfil_view(request):
 
 
 # Views para lidar com Bem estar
+@require_GET
 @login_required
 def bemestar_view(request):
     registros = BemEstar.objects.filter(usuario=request.user).order_by('-data')
     return render(request, 'pluslife/bemestar.html', {'registros': registros})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_bemestar(request):
     form = BemEstarForm(request.POST or None)
@@ -387,6 +415,7 @@ def cadastrar_bemestar(request):
         return redirect('bemestar')
     return render(request, 'pluslife/form_bemestar.html', {'form': form, 'titulo': 'Novo Registro de Bem-Estar'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def editar_bemestar(request, pk):
     registro = get_object_or_404(BemEstar, pk=pk, usuario=request.user)
@@ -396,6 +425,7 @@ def editar_bemestar(request, pk):
         return redirect('bemestar')
     return render(request, 'pluslife/form_bemestar.html', {'form': form, 'titulo': 'Editar Registro de Bem-Estar'})
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_bemestar(request, pk):
     registro = get_object_or_404(BemEstar, pk=pk, usuario=request.user)
@@ -424,11 +454,14 @@ def obter_legenda(imc):
     else:
         return 'Obesidade Grau 3'
 
+@require_GET
 @login_required
 def imc_view(request):
     imcs = IMC.objects.filter(usuario=request.user).order_by('-id')
     return render(request, 'pluslife/imc.html', {'imcs': imcs})
 
+@require_http_methods(["GET", "POST"])
+@login_required
 def calcular_registrar_imc(request):
     resultado = None
     observacao = None
@@ -478,6 +511,7 @@ def calcular_registrar_imc(request):
         'altura': altura,
     })
 
+@require_http_methods(["GET", "POST"])
 @login_required
 def excluir_imc(request, pk):
     imc = get_object_or_404(IMC, pk=pk, usuario=request.user)
