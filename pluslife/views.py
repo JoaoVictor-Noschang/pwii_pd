@@ -204,6 +204,8 @@ def cadastrar_hidratacao(request):
     service = HidratacaoService()
 
     if request.method == 'POST' and form.is_valid():
+        #injeção de dependência
+        #passando a responsábilidade para o service
         service.criar_hidratacao(request.user, form.cleaned_data)
         return redirect('hidratacoes')
 
@@ -245,6 +247,8 @@ def cadastrar_exercicio(request):
     service = ExercicioService()
 
     if request.method == 'POST' and form.is_valid():
+        #injeção de dependência
+        #passando a responsábilidade para o service
         service.criar_exercicio(request.user, form.cleaned_data)
         return redirect('exercicios')
 

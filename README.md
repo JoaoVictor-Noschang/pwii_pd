@@ -1,3 +1,15 @@
+# 💾 Tecnologia em Análise e Desenvolvimento de Sistemas
+
+5° Semestre - IFMT Campus Campo Verde.  
+Projeto para a Disciplina de *Programação de Dispositivos Móveis II*
+
+---
+
+### 💡 Autores
+- [João Victor](https://github.com/JoaoVictor-Noschang)
+
+<br>
+
 # ➕💚 PlusLife Web
 
 O PlusLife é um site web desenvolvido para auxiliar usuários a monitorar e manter um estilo de vida saudável, registrando atividades físicas, alimentação e hidratação. Ele oferece as seguintes funcionalidades (Requisitos Funcionais):
@@ -15,10 +27,11 @@ O PlusLife é um site web desenvolvido para auxiliar usuários a monitorar e man
 
 ## Utilizou-se o seguinte DER (Diagrama Entidade Relacionamento)
 
-<p align="center">
-  <img src="./der/der_pluslife.jpg" alt="Login" />
-  
-</p>
+- Onde possuimos 10 entidades, com seus respectivos relacionamentos:
+
+    <p align="left" >
+        <img src="./imgs_readme/der_pluslife.jpg" alt="Login" width="700" />
+    </p>
 
 <br>
 
@@ -27,122 +40,137 @@ O PlusLife é um site web desenvolvido para auxiliar usuários a monitorar e man
 Para executar o *PlusLife* em sua máquina, siga os passos abaixo:
 
 1.  *Clone o Repositório:*
+
     Abra seu terminal ou prompt de comando e execute:
-    bash
-    git clone [https://github.com/JoaoVictor-Noschang/pdmii_projeto_disciplina.git](https://github.com/JoaoVictor-Noschang/pdmii_projeto_disciplina.git)
+
+    ```bash
+    git clone [https://github.com/JoaoVictor-Noschang/pwii_pd.git](https://github.com/JoaoVictor-Noschang/pwii_pd.git)
+    ```
     
 <br>
 
-2.  *Instale as Dependências:*
-    Navegue até o diretório do projeto clonado e instale todas as dependências necessárias com:
+2.  *Recrie o ambiente virtual (.venv):*
 
-    Abrindo a página do projeto
-    bash
-    cd pdmii_projeto_disciplina
+    Navegue até o diretório do projeto clonado. É uma boa prática criar um ambiente virtual para isolar as dependências do projeto das dependências globais do seu sistema. 
     
+    O projeto já indica o uso de um ambiente virtual chamado .venv, recrie ele:
+    ```bash
+    python -m venv .venv
+    ```
 
-    Instalando as dependências
-    bash
-    npm install
-    
+    Ative ele (comando para windows): 
+    ```bash
+    .venv\Scripts\activate
+    ```
+
+    Você saberá que o ambiente virtual está ativo quando vir (.venv) no início da linha de comando.
 
 <br>
 
-3.  *Inicie o Aplicativo:*
-    Após a instalação das dependências, você pode iniciar o projeto com:
-    bash
-    npx expo start
+3.  *Instale todas as dependências ao mesmo tempo:*
+
+    O projeto possui um arquivio chamado *requirements.txt* onde lista todas as dependências necessárias. Intale-as pelo comando:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
     
-    Este comando abrirá o Metro Bundler no seu terminal, onde você poderá escanear o QR code com o aplicativo Expo Go no seu celular ou usar um emulador.
+    Aqui ele irá instalar o framework e as bibliotecas:
+    - **django**: Um framework web de alto nível em Python que incentiva o desenvolvimento rápido e um design limpo e pragmático.
+
+    - **python-decouple**: Uma biblioteca simples para separar as configurações do seu código. Facilita o armazenamento de variáveis sensíveis (como chaves secretas e configurações de banco de dados) em arquivos .env ou variáveis de ambiente, mantendo-as fora do controle de versão.
+
+    - **dj-database-url**: Permite configurar as configurações de banco de dados do Django usando uma única URL de ambiente. Isso é extremamente útil para implantações em serviços de hospedagem que fornecem as informações do banco de dados como uma URL.
 
 <br>
 
+4.  *Configure o arquivo .env:*
 
-# 💾 Tecnologia em Análise e Desenvolvimento de Sistemas
+    Muitos projetos usam o **python-decouple** para gerenciar variáveis de ambiente. 
 
-5° Semestre - IFMT Campus Campo Verde.  
-Projeto para a Disciplina de *Programação de Dispositivos Móveis II*
+    Crie na raiz do projeto um arquivo chamado **.env** com a seguinte estrutura:
 
----
+    <p align="left">
+        <img src="./imgs_readme/exemplo_env.png" alt="exemplo" width="300"/>
+    </p>
 
-### 💡 Autores
-- [João Victor](https://github.com/JoaoVictor-Noschang)
+<br>
 
+5.  *Configure o banco de dados:*
+
+    Rodamos as migrações do banco, como é a primeira vez, ele irá criar uma nova *migration*:
+
+    ```bash
+    python manage.py migrate
+    ```
+
+
+<br>
+
+6.  *Execute o servidor de desenvolvimento:*
+
+    Rodamos o servidor de desenvolvimento para que o projeto esteja disponível no *localhost* para interações:
+
+    ```bash
+    python manage.py runserver
+    ```
 
 <br>
 
 ## 🔧 Features mínimas
 
-Além disso o sistema deve cumprir os seguinte requisitos:
-- Possuir 5 telas;
+O sistema deve possuir as seguintes features minimas:
 
-    - ✅ Projeto possui 8 telas: Login, cadastro, home, registro de refeições, de hidratação, de exercícios, calculadora de IMC e perfil do usuário.
+- Possuir 10 entidades;
 
-- Possuir pelo menos 1 microsserviço;
+    - ✅ Projeto possui 10 entidades: Usuário, Endereço, Refeição, TipoRefeição, Hidratação, Exercício, TipoExercício, IMC(Índice de Massa Corporal), LegendaImc, BemEstar. *Estão detalhadas no DER no inicio do documento.*
 
-    - ✅ A lógica do IMC é feita por uma API externa que recebe os dados e retorna o resultado do calculo e a informação de acordo com o resultado.
+    <br>
 
-- Possuir Persistência de dados (local, BD, nuvem, ou outro).
+- Pelo menos duas injeções de dependências;
 
-    - ✅ Utiliza persistência de dados local com o SQLite.
+    - ✅ Possui três, os quais são services que são chamadas nas views responsáveis pela criação de registros de refeições, hidratações e exercício.
+        - Service para instâncias uma refeição - em **services.py**
+
+            <img src="./imgs_readme/serv_ref.png" alt="exemplo" width="500"/>
+
+        - View para a criação de uma nova refeição - em **views.py**
+
+            <img src="./imgs_readme/view_cria_ref.png" alt="exemplo" width="500"/>
+
+        <br>
+        
+        - Service para instâncias uma hidratação - em **services.py**
+
+            <img src="./imgs_readme/serv_hidratacao.png" alt="exemplo" width="500"/>
+
+        - View para a criação de uma nova hidratação - em **views.py**
+
+            <img src="./imgs_readme/view_cria_hidrat.png" alt="exemplo" width="500"/>
+        
+        <br>
+        
+        - Service para instâncias um exercício - em **services.py**
+
+            <img src="./imgs_readme/serv_hidratacao.png" alt="exemplo" width="500"/>
+
+        - View para a criação de um novo exercício - em **views.py**
+
+            <img src="./imgs_readme/view_cria_hidrat.png" alt="exemplo" width="500"/>
+
+        <br>
+
+- Possuir um DER (Diagrama entidade relacionamento).
+
+    - ✅ Possui, está ilustrado no inicio deste documento.
 
 <br>
 
-# 🖥 Tecnologias Utilizadas
+# Tecnologias Utilizadas
 
 Este projeto foi construído utilizando as seguintes tecnologias e bibliotecas:
 
-* *React Native:* Framework para desenvolvimento de aplicativos móveis multiplataforma.
-* *Expo Go:* Ferramenta que facilita o desenvolvimento, teste e implantação de aplicativos React Native.
-* *Expo Router:* Biblioteca de roteamento baseada em arquivos para navegação entre as telas do aplicativo.
-* *Expo SQLite:* Biblioteca que oferece acesso a um banco de dados local SQLite, utilizado para persistência de dados.
-* *Figma:* Ferramenta de design utilizada para prototipagem e criação das interfaces do usuário.
+* **Python:** Uma linguagem de programação de alto nível, interpretada e de propósito geral, conhecida por sua sintaxe clara e legibilidade.
+* **Framework Django:** Um framework web de código aberto escrito em Python, que incentiva o desenvolvimento rápido e um design limpo e pragmático. 
 
 <br>
-
-## Bibliotecas do Expo
-
-Foram utilizadas algumas bibliotecas nativas do Expo Go, os quais foram necessárias a instalação de suas dependências, estão descritas a seguir.
-
-
-### Iniciando um projeto Expo GO em branco com JS
-
-1. Para iniciar o projeto em branco utilizando JavaScript, utilizou-se o comando de criação de projeto do Expo a partitr de um template em branco:
-
-   <pre><code>npx create-expo-app@latest --template</code></pre>
-   
-   Após o comando o terminar solicita que escolha qual template será usado, e então escolheu-se o tamplate:
-
-   <pre><code>blank</code></pre>
-
-   Ao escolher, irá finalizar a instalação e configuração dos arquivos do Expo Go com um projeto em branco.
-
-2. Após, o projeto foi iniciado, para verificar se tudo foi instalado corretamente, e para configurar aplicativo do celular para a renderização do projeto.
-
-   <pre><code>npx expo start</code></pre>
-
-<br>
-
-### Incluindo a biblioteca Expo Router ao projeto
-
-É uma biblioteca de roteamento baseada em arquivos para React Native.
-Será a biblioteca resposável por mapear e lidar com a navegação entre as páginas do projeto.
-
-1. Para intalar no projeto utiliza-se o seguinte comando:
-
-   <pre><code>npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar</code></pre>
-
-<br>
-
-### Incluindo a biblioteca Expo SQLite ao projeto
-
-Uma biblioteca que fornece acesso a um banco de dados que pode ser consultado por meio de uma API SQLite.
-Responsável por fazer a comunicação entre aaplicação e um banco de dado local utilizando SQLite.
-
-1. Para intalar no projeto utiliza-se o seguinte comando:
-
-   <pre><code>npx expo install expo-sqlite</code></pre>
-
-<br>
-
----
