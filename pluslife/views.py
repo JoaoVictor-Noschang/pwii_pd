@@ -14,6 +14,8 @@ from .models import Usuario, Refeicao, Hidratacao, Exercicio, Endereco, TipoRefe
 #services das injeções de dependência
 from pluslife.services import RefeicaoService, HidratacaoService, ExercicioService
 
+TEMPLATE_CONFIRMACAO_EXCLUSAO = 'pluslife/confirmar_exclusao.html'
+
 
 def home_view(request):
     if request.user.is_authenticated:
@@ -140,7 +142,7 @@ def excluir_refeicao(request, pk):
     if request.method == 'POST':
         refeicao.delete()
         return redirect('refeicoes')
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'objeto': refeicao, 
         'tipo': 'refeição', 
         'cancel_url': reverse('refeicoes')
@@ -186,7 +188,7 @@ def excluir_tipo_refeicao(request, pk):
             messages.error(request, 'Não é possível excluir: há refeições associadas a este tipo.')
         return redirect('tipos_refeicao')
     
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'tipo': 'Tipo de Refeição',
         'objeto': tipo,
     })
@@ -229,7 +231,7 @@ def excluir_hidratacao(request, pk):
     if request.method == 'POST':
         hidratacao.delete()
         return redirect('hidratacoes')
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'objeto': hidratacao, 
         'tipo': 'hidratação',
         'cancel_url': reverse('hidratacoes')
@@ -272,7 +274,7 @@ def excluir_exercicio(request, pk):
     if request.method == 'POST':
         exercicio.delete()
         return redirect('exercicios')
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'objeto': exercicio, 
         'tipo': 'exercício',
         'cancel_url': reverse('exercicios')
@@ -325,7 +327,7 @@ def excluir_tipo_exercicio(request, pk):
             messages.error(request, 'Não é possível excluir: há exercícios associados a este tipo.')
         return redirect('tipos_exercicio')
 
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'tipo': 'Tipo de Exercício',
         'objeto': tipo,
     })
@@ -400,7 +402,7 @@ def excluir_bemestar(request, pk):
     if request.method == 'POST':
         registro.delete()
         return redirect('bemestar')
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'objeto': registro,
         'tipo': 'registro de bem-estar',
         'cancel_url': reverse('bemestar')
@@ -483,7 +485,7 @@ def excluir_imc(request, pk):
         imc.delete()
         messages.success(request, 'Registro de IMC excluído com sucesso.')
         return redirect('imc')
-    return render(request, 'pluslife/confirmar_exclusao.html', {
+    return render(request, TEMPLATE_CONFIRMACAO_EXCLUSAO, {
         'objeto': imc,
         'tipo': 'registro de IMC',
         'cancel_url': reverse('imc')
