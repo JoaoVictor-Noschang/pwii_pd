@@ -77,11 +77,10 @@ class TipoRefeicaoForm(forms.ModelForm):
         }
 
     def save(self, commit=True, usuario=None):
+        if usuario is None:
+            raise ValueError("Usuário é obrigatório para salvar este objeto.")
         instance = super().save(commit=False)
-        if usuario is not None:
-            instance.usuario = usuario
-        else:
-            raise ValueError("Usuário é obrigatório ao salvar o tipo de refeição.")
+        instance.usuario = usuario
         if commit:
             instance.save()
         return instance
@@ -133,9 +132,10 @@ class TipoExercicioForm(forms.ModelForm):
         }
 
     def save(self, commit=True, usuario=None):
+        if usuario is None:
+            raise ValueError("Usuário é obrigatório para salvar este objeto.")
         instance = super().save(commit=False)
-        if usuario is not None:
-            instance.usuario = usuario
+        instance.usuario = usuario
         if commit:
             instance.save()
         return instance

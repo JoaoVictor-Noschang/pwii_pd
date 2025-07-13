@@ -181,14 +181,19 @@ def tipos_refeicao_view(request):
 @login_required
 def editar_tipo_refeicao(request, pk):
     tipo = get_object_or_404(TipoRefeicao, pk=pk, usuario=request.user)
+    
     if request.method == 'POST':
         form = TipoRefeicaoForm(request.POST, instance=tipo)
         if form.is_valid():
-            form.save()
+            form.save(usuario=request.user)
             return redirect('tipos_refeicao')
     else:
         form = TipoRefeicaoForm(instance=tipo)
-    return render(request, 'pluslife/form_tipo_refeicao.html', {'form': form, 'tipo': tipo})
+    
+    return render(request, 'pluslife/form_tipo_refeicao.html', {
+        'form': form,
+        'tipo': tipo,
+    })
 
 @require_http_methods(["GET", "POST"])
 @login_required
@@ -328,15 +333,13 @@ def tipos_exercicio_view(request):
 @login_required
 def editar_tipo_exercicio(request, pk):
     tipo = get_object_or_404(TipoExercicio, pk=pk, usuario=request.user)
-    
     if request.method == 'POST':
         form = TipoExercicioForm(request.POST, instance=tipo)
         if form.is_valid():
-            form.save()
+            form.save(usuario=request.user)
             return redirect('tipos_exercicio')
     else:
         form = TipoExercicioForm(instance=tipo)
-
     return render(request, 'pluslife/form_tipo_exercicio.html', {
         'form': form,
         'tipo': tipo,
