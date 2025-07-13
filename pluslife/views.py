@@ -123,7 +123,7 @@ def refeicao_view(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_refeicao(request):
-    form = RefeicaoForm(request.POST or None)
+    form = RefeicaoForm(request.POST or None, usuario=request.user)
     service = RefeicaoService()
 
     if request.method == 'POST' and form.is_valid():
@@ -138,10 +138,12 @@ def cadastrar_refeicao(request):
 @login_required
 def editar_refeicao(request, pk):
     refeicao = get_object_or_404(Refeicao, pk=pk, usuario=request.user)
-    form = RefeicaoForm(request.POST or None, instance=refeicao)
+    form = RefeicaoForm(request.POST or None, instance=refeicao, usuario=request.user)
+
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('refeicoes')
+
     return render(request, 'pluslife/form_refeicao.html', {'form': form, 'titulo': 'Editar Refeição'})
 
 @require_http_methods(["GET", "POST"])
@@ -158,16 +160,16 @@ def excluir_refeicao(request, pk):
     })
 
 # manipulando cadastros de tipo de refeição
-@require_GET
+@require_http_methods(["GET", "POST"])
 @login_required
 def tipos_refeicao_view(request):
-    tipos = TipoRefeicao.objects.all()
+    tipos = TipoRefeicao.objects.filter(usuario=request.user)
     form = TipoRefeicaoForm()
 
     if request.method == 'POST':
         form = TipoRefeicaoForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(usuario=request.user)
             return redirect('tipos_refeicao')
 
     return render(request, 'pluslife/tipos_refeicao.html', {
@@ -178,7 +180,7 @@ def tipos_refeicao_view(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def editar_tipo_refeicao(request, pk):
-    tipo = get_object_or_404(TipoRefeicao, pk=pk)
+    tipo = get_object_or_404(TipoRefeicao, pk=pk, usuario=request.user)
     if request.method == 'POST':
         form = TipoRefeicaoForm(request.POST, instance=tipo)
         if form.is_valid():
@@ -191,7 +193,7 @@ def editar_tipo_refeicao(request, pk):
 @require_http_methods(["GET", "POST"])
 @login_required
 def excluir_tipo_refeicao(request, pk):
-    tipo = get_object_or_404(TipoRefeicao, pk=pk)
+    tipo = get_object_or_404(TipoRefeicao, pk=pk, usuario=request.user)
     if request.method == 'POST':
         try:
             tipo.delete()
@@ -264,7 +266,7 @@ def exercicio_view(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def cadastrar_exercicio(request):
-    form = ExercicioForm(request.POST or None)
+    form = ExercicioForm(request.POST or None, usuario=request.user)
     service = ExercicioService()
 
     if request.method == 'POST' and form.is_valid():
@@ -282,10 +284,12 @@ def cadastrar_exercicio(request):
 @login_required
 def editar_exercicio(request, pk):
     exercicio = get_object_or_404(Exercicio, pk=pk, usuario=request.user)
-    form = ExercicioForm(request.POST or None, instance=exercicio)
+    form = ExercicioForm(request.POST or None, instance=exercicio, usuario=request.user)
+
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect('exercicios')
+
     return render(request, 'pluslife/form_exercicio.html', {'form': form, 'titulo': 'Editar Exercício'})
 
 @require_http_methods(["GET", "POST"])
@@ -303,16 +307,16 @@ def excluir_exercicio(request, pk):
 
 
 #views para manipular tipos de exercícios
-@require_GET
+@require_http_methods(["GET", "POST"])
 @login_required
 def tipos_exercicio_view(request):
-    tipos = TipoExercicio.objects.all()
+    tipos = TipoExercicio.objects.filter(usuario=request.user)
     form = TipoExercicioForm()
 
     if request.method == 'POST':
         form = TipoExercicioForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(usuario=request.user)
             return redirect('tipos_exercicio')
 
     return render(request, 'pluslife/tipos_exercicio.html', {
@@ -323,7 +327,7 @@ def tipos_exercicio_view(request):
 @require_http_methods(["GET", "POST"])
 @login_required
 def editar_tipo_exercicio(request, pk):
-    tipo = get_object_or_404(TipoExercicio, pk=pk)
+    tipo = get_object_or_404(TipoExercicio, pk=pk, usuario=request.user)
     
     if request.method == 'POST':
         form = TipoExercicioForm(request.POST, instance=tipo)
@@ -341,7 +345,7 @@ def editar_tipo_exercicio(request, pk):
 @require_http_methods(["GET", "POST"])
 @login_required
 def excluir_tipo_exercicio(request, pk):
-    tipo = get_object_or_404(TipoExercicio, pk=pk)
+    tipo = get_object_or_404(TipoExercicio, pk=pk, usuario=request.user)
 
     if request.method == 'POST':
         try:

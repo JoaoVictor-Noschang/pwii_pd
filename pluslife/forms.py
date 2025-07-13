@@ -51,6 +51,12 @@ class RefeicaoForm(forms.ModelForm):
         label="Data e Hora"
     )
 
+    def __init__(self, *args, **kwargs):
+        usuario = kwargs.pop('usuario', None)
+        super().__init__(*args, **kwargs)
+        if usuario:
+            self.fields['tipo_refeicao'].queryset = TipoRefeicao.objects.filter(usuario=usuario)
+
     class Meta:
         model = Refeicao
         fields = ['nome', 'data_hora', 'peso', 'calorias', 'tipo_refeicao']
@@ -70,6 +76,16 @@ class TipoRefeicaoForm(forms.ModelForm):
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título'}),
         }
 
+    def save(self, commit=True, usuario=None):
+        instance = super().save(commit=False)
+        if usuario is not None:
+            instance.usuario = usuario
+        else:
+            raise ValueError("Usuário é obrigatório ao salvar o tipo de refeição.")
+        if commit:
+            instance.save()
+        return instance
+
 
 #forms para hidratacoes
 class HidratacaoForm(forms.ModelForm):
@@ -86,12 +102,18 @@ class HidratacaoForm(forms.ModelForm):
         }
 
 
-#formss para exeercicios
+#formss para exercicios
 class ExercicioForm(forms.ModelForm):
     data_hora = forms.DateTimeField(
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
         input_formats=['%Y-%m-%dT%H:%M']
     )
+
+    def __init__(self, *args, **kwargs):
+        usuario = kwargs.pop('usuario', None)
+        super().__init__(*args, **kwargs)
+        if usuario:
+            self.fields['tipo_exercicio'].queryset = TipoExercicio.objects.filter(usuario=usuario)
 
     class Meta:
         model = Exercicio
@@ -109,6 +131,14 @@ class TipoExercicioForm(forms.ModelForm):
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def save(self, commit=True, usuario=None):
+        instance = super().save(commit=False)
+        if usuario is not None:
+            instance.usuario = usuario
+        if commit:
+            instance.save()
+        return instance
 
 
 #forms para manipulacao dos dados do usuario

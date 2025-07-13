@@ -1,10 +1,12 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 
 class TipoRefeicao(models.Model):
     titulo = models.CharField(max_length=100)
+    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='tipos_refeicao')
 
     def __str__(self):
         return self.titulo
@@ -12,6 +14,7 @@ class TipoRefeicao(models.Model):
 
 class TipoExercicio(models.Model):
     titulo = models.CharField(max_length=100)
+    usuario = models.ForeignKey('Usuario', on_delete=models.PROTECT, related_name='tipos_exercicio')
 
     def __str__(self):
         return self.titulo
