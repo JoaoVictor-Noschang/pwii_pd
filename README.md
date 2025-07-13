@@ -44,7 +44,7 @@ Para executar o *PlusLife* em sua máquina, siga os passos abaixo:
     Abra seu terminal ou prompt de comando e execute:
 
     ```bash
-    git clone [https://github.com/JoaoVictor-Noschang/pwii_pd.git](https://github.com/JoaoVictor-Noschang/pwii_pd.git)
+    git clone https://github.com/JoaoVictor-Noschang/pwii_pd.git
     ```
     
 <br>
