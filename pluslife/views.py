@@ -467,7 +467,7 @@ def imc_view(request):
     imcs = IMC.objects.filter(usuario=request.user).order_by('-id')
     return render(request, 'pluslife/imc.html', {'imcs': imcs})
 
-@require_http_methods(["GET", "POST"])
+#@require_http_methods(["GET", "POST"])
 @login_required
 def calcular_registrar_imc(request):
     resultado = None
